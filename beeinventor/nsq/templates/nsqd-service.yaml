@@ -1,4 +1,4 @@
-{{- if and .Values.nsqd.enabled (ne "headless" .Values.nsqd.service.type) -}}
+{{- if and .Values.nsqd.enabled .Values.nsqd.service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "nsq.commonLabels" . | nindent 4 }}
 spec:
-  type: {{ .Values.nsqd.service.type }}
+  type: ClusterIP
   ports:
   - name: http
     port: 4151

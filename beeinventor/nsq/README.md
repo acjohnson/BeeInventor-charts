@@ -1,3 +1,21 @@
+# Fork Specifics
+
+This is based off of https://github.com/beeinventor/charts/tree/master/beeinventor/nsq but has been modified
+to suit our needs.
+
+Modifications from original chart:
+
+  * `nsqd` made a `DaemonSet` (instead of a `StatefulSet`; we want an `nsqd` to run on every node
+    running pods that produce messages)
+  * `nsqd` service made headless (we don't want kubernetes to manage connections; instead we want
+    `nsqlookupd` to manage consumer connections and producer connections to be node-local)
+  * Default resource requirements added for `nsqd` and `nsqlookupd`
+
+Problems:
+
+  * Persistent volumens aren't supported for `DaemonSet`s. Thus, persistence must be turned off for now
+
+
 # NSQ
 
 NSQ is a realtime distributed messaging platform designed to operate at scale, handling billions of messages per day.
@@ -74,7 +92,6 @@ The following table lists the configurable parameters of the nsq chart and their
 | nsqd.replicaCount       | Number of nsqd replicas                                                              | `3`                  |
 | nsqd.priorityClassName  | The name of the kube priority class used. Defaults to global default.                | `nil`                |
 | nsqd.extraArgs          | Extra arguments to provide to the `nsqd` command                                     | `[]`                 |
-| nsqd.extraEnv           | Extra env to provide to the `nsqd`                                                   | `[]`                 |
 | nsqd.service.type       | The nsqd service type                                                                | `ClusterIP`          |
 | nsqd.podAnnotations     | The annotations to attach to the nsqd pods                                           | `{}`                 |
 | nsqd.podSecurityContext | The security context to attach to the nsqd pods                                      | `{}`                 |

@@ -29,13 +29,12 @@ nsqlookupd:
     # fsGroup: 2000
 
   resources:
-    {}
     # limits:
     #   cpu: 100m
     #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
 
   serviceAccountName:
 
@@ -101,15 +100,9 @@ nsqd:
 
   fullnameOverride:
 
-  replicaCount: 3
-
   priorityClassName:
 
   extraArgs: []
-
-  extraEnv: []
-
-  podManagementPolicy: Parallel
 
   podAnnotations: {}
 
@@ -120,13 +113,12 @@ nsqd:
   serviceAccountName:
 
   resources:
-    {}
     # limits:
     #   cpu: 100m
     #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 1024Mi
 
   nodeSelector: {}
 
@@ -134,12 +126,15 @@ nsqd:
 
   affinity: {}
 
-  service:
-    type: ClusterIP
-
   persistence:
-    enabled: true
-    size: 1Gi
-    storageClass: "-"
-    accessModes: ReadWriteOnce
+    enabled: false
+    size: 20Gi
+    storageClass: "premium-rwo"
+    accessModes:
+      - ReadWriteOnce
 
+  service:
+    enabled: false
+
+  nodePortHTTP: 30151
+  nodePortTCP: 30150
